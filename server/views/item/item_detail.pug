@@ -1,0 +1,49 @@
+extends ../layout 
+
+block content 
+    main 
+        header 
+            h1= title 
+            p Details for #{item.name}
+
+        .main-container.flex-col.gap.lrg 
+
+            .flex-col.gap-sml
+                h1 #{item.name}
+                hr 
+
+            .detail-content.itemDetail.flex-row.jst-cntr.algn-cntr.gap-md 
+                .detail-img-container  
+                    if item.name.split(" ").length > 1
+                        img(alt="Item Image" src=`/images/items/${item.name.toLowerCase().replace(/ /g, '_')}_${item.parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg`) 
+                    else 
+                        img(alt="Item Image" src=`/images/items/${item.name.toLowerCase()}_${item.parent_subcategory.name.toLowerCase().replace(" ", "_")}.jpg`)
+
+                div.detail-info.itemDetail.flex-col.gap-lrg
+
+                    div.detail-categories.itemDetail 
+                        h3 Parent Subcategory: 
+                        a(href=item.parent_subcategory.url) #{item.parent_subcategory.name}
+
+                    div.detail-desc.flex-col.gap-sml
+                        h3 Description: 
+                        p #{item.description}
+
+                    div.detail-price.flex-col.gap-sml 
+                        h3 Price:
+                        p#price #{item.price_to_usd}
+
+                    div.number_in_stock.flex-col.gap-sml 
+                        h3 Number in stock: 
+                        if item.number_in_stock !== 0
+                            p #{item.number_in_stock}
+                        else 
+                            p.out-of-stock Out of stock
+
+                    div.detail-actions.itemDetail.flex-row.jst-cntr.align-cntr.txt-algn
+                        div 
+                            button 
+                                a(href=item.url + "/update") Update
+                        div 
+                            button 
+                                a(href=item.url + "/delete") Delete

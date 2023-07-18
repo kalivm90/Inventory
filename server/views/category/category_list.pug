@@ -1,0 +1,29 @@
+extends ../layout 
+
+
+block content 
+    main 
+        header.flex-row.jst-between.algn-cntr  
+            .head-info.flex-col.gap-sml
+                h1 #{title}
+                p All categories 
+            .head-create 
+                a(href="/catalog/category/create") Create Category
+
+        if categories 
+            //- catList
+            div.main-container.grid
+                each cat in categories 
+                    div.card.flex-col.gap-md
+                        p.card-name 
+                            a(href=cat.url) #{cat.name}
+                        div.img-container  
+                            img.card-img(src=`/images/categories/${cat.name.toLowerCase().replace(' ', '_')}.jpg`)
+
+                        p.card-desc #{cat.description}
+
+        else 
+            div.error-message 
+                p Something went wrong 
+                    a(href="/catalog/categories") Refresh
+

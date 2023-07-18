@@ -1,0 +1,50 @@
+extends ../layout 
+
+block content 
+    main 
+        header 
+            h1 #{title} 
+            p Details for #{category.name} 
+
+        div.main-container.flex-col.gap-lrg 
+
+            div.flex-col.gap-sml
+                h1 #{category.name}
+                hr
+
+            div.detail-content.flex-row.jst-cntr.algn-cntr.gap-md 
+                div.detail-img-container  
+                    img(src=`/images/categories/${category.name.toLowerCase().replace(' ', '_')}.jpg`)
+
+                div.detail-info.flex-col.gap-lrg
+                    
+                    div.detail-categories 
+                        h3 Subcateories: 
+
+                        if subcategory.length > 0 
+                            ul 
+                                each sub in subcategory 
+                                    li 
+                                        a(href=sub.url) #{sub.name}
+                        else 
+                            p.error No subcategories at this time
+
+                    div.detail-desc.flex-col.gap-sml
+                        h3 Description: 
+                        p #{category.description}
+
+
+                    h3 Item count for #{category.name}: #{" "}
+                        if itemCount !== null || itemCount > 0 
+                                span.itemCount #{itemCount.length}
+                        else 
+                                span.itemCount.error No items 
+
+
+                    div.detail-actions.flex-row.jst-cntr.align-cntr.txt-algn
+                        div 
+                            button 
+                                a(href=category.url + "/update") Update
+                        div 
+                            button 
+                                a(href=category.url + "/delete") Delete

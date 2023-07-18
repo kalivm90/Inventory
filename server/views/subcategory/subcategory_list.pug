@@ -1,0 +1,39 @@
+extends ../layout 
+
+block content 
+    main 
+        header.flex-row.jst-between.algn-cntr   
+            .head-info.flex-col.gap-sml
+                h1 #{title}
+                p All subcategories
+            .head-create 
+                a(href="/catalog/subcategory/create") Create Subcategory
+
+        if subcategories
+            div.main-container.flex-col.gap-sml 
+                each sub in subcategories   
+                    div.flex-col.gap-sml 
+                        div.flex-row.jst-between 
+                            h1 #{sub[0].parent_category.name}
+                            a(href=sub[0].parent_category.url) Go to #{sub[0].parent_category.name}
+                        hr 
+                        div.grid.subList 
+                            each group in sub
+                                div.card.flex-col.gap-md 
+                                    p.card-name 
+                                        a(href=group.url) #{group.name}
+
+                                    div.img-container 
+                                        if group.name.split(" ").length > 1 
+                                            img.card-img(src=`/images/subcategories/${group.name.toLowerCase().replace(' ', '_')}.jpg`)
+                                        else
+                                            img.card-img(src=`/images/subcategories/${group.name.toLowerCase() + `_${sub[0].parent_category.name.toLowerCase()}`}.jpg`) 
+
+
+                                    p.card-desc #{group.description}
+        
+        else 
+            div.error-message 
+                p Something went wrong 
+                    a(href="/catalog/subcategories") Refresh
+

@@ -1,0 +1,54 @@
+extends ../layout 
+
+block content 
+    main 
+        header 
+            h1= title 
+            p Details for #{subcategory.name}
+
+        .main-container.flex-col.gap-lrg 
+
+            .flex-col.gap-sml
+                h1 #{subcategory.name}
+                hr
+
+
+            .detail-content.subDetail.flex-row.jst-cntr.algn-cntr.gap-md 
+                .detail-img-container  
+                    if subcategory.name === "Other"
+                        img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}_${subcategory.parent_category.name.toLowerCase()}.jpg`)    
+                    else if subcategory.name.split(" ").length > 1
+                        img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}.jpg`)
+                    else 
+                        img.card-img(src=`/images/subcategories/${subcategory.name.toLowerCase() + `_${subcategory.parent_category.name.toLowerCase()}`}.jpg`)
+                    
+
+
+                div.detail-info.subDetail.flex-col.gap-lrg
+                    
+                    div.detail-categories.subDetail 
+                        h3 Parent Category: 
+                        a(href=subcategory.parent_category.url) #{subcategory.parent_category.name}
+
+                    div.detail-desc.flex-col.gap-sml
+                        h3 Description: 
+                        p #{subcategory.description}
+
+
+                    - let t = `Item count for ${subcategory.name}`
+                    if subcategory.name === "Other"
+                        - t += ` ${subcategory.parent_category.name}`
+                    h3 #{t}:#{" "}
+                        if itemCount !== null || itemCount > 0 
+                            span.itemCount #{itemCount.length}
+                        else 
+                            span.itemCount.error No Items
+                    
+
+                    div.detail-actions.flex-row.jst-cntr.align-cntr.txt-algn
+                        div 
+                            button 
+                                a(href=subcategory.url + "/update") Update
+                        div 
+                            button 
+                                a(href=subcategory.url + "/delete") Delete

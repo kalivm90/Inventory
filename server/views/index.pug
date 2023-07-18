@@ -1,0 +1,48 @@
+extends layout 
+
+block content
+  main 
+    header  
+      h1 #{title}
+      p Please look at our searchable fields
+
+    div.main-container.index 
+      ul.flex-col.gap-10 
+        li 
+          a(href="/catalog/categories") Categories: 
+            span.non-link #{categories.length}
+        li  
+          a(href="/catalog/subcategories") Subcategories: 
+            span.non-link #{subcategories.length}
+        li 
+          a(href="/catalog/items") Items: 
+            span.non-link #{items.length}
+
+
+
+//- extends layout
+
+//- block content
+//-   main
+//-     header 
+//-       h1= title
+//-       p Please select a category to refine your search 
+
+//-     if categories 
+//-       div.main-content
+//-         each category in categories
+//-           div.catCard
+//-             p.card-name 
+//-               a(href=category.query.url) #{category.query.name}
+//-             if category.imageUrl != null
+//-               div.img-container  
+//-                 img.card-img(src=category.imageUrl, alt="image")
+//-             else 
+//-               div.img-container  
+//-                 img.card-img(src=`images/categories/${category.query.name}.jpg`)
+
+//-             p.card-desc #{category.query.description}
+//-     else 
+//-       div.error-message
+//-         p Something went wrong 
+//-           a(href="/catalog") Refresh

@@ -1,0 +1,116 @@
+extends ../layout
+
+block content
+    main
+        header.flex-row.jst-between.algn-cntr
+            .head-info.flex-col.gap-sml
+                h1 #{title}
+                p All items, click name to view.
+            .head-create 
+                a(href="/catalog/item/create") Create Item
+
+        if items.length > 0
+            div.main-container.grid.itemList
+                each item in items
+                    div.card.flex-col.gap-md 
+                        p.card-name 
+                            a(href=item.url) #{item.name}
+
+                        div.img-container 
+                            if item.name.split(" ").length > 1 
+                                img(alt="Item Image" src=`/images/items/${item.name.toLowerCase().replace(/ /g, '_')}_${item.parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg`).card-img
+                            else
+                                img(alt="Item Image" src=`/images/items/${item.name.toLowerCase() + `_${item.parent_subcategory.name.toLowerCase().replace(" ", "_")}`}.jpg`).card-img
+
+                        div.card-desc 
+                            p #{item.description}
+
+                        div.itemCard-cat.flex-col.gap-xsml 
+                            p Subcategory: 
+                                a(href=item.parent_subcategory.url) #{item.parent_subcategory.name}
+
+                            p Category: 
+                                a(href=item.parent_subcategory.parent_category.url) #{item.parent_subcategory.parent_category.name}
+
+                        div.itemCard-price.flex-col.gap-sml 
+                            span#price #{item.price_to_usd}
+                            if item.number_in_stock !== 0
+                                p Qty: #{item.number_in_stock}
+                            else 
+                                p Qty: 
+                                    span.out-of-stock Out of Stock
+
+                        p.itemCard-skew.txt-algn Skew: #{item.skew}
+
+
+            div.pagination
+
+                div.nxt-prv-container
+                    if currentPage - 1 < 1 
+                        i.bi.bi-chevron-left.pag#disabled
+                        a(href="javascript:void(0)")#disabled Previous
+                    else
+                        i.bi.bi-chevron-left.pag
+                        a(href=`/catalog/items/?page=${currentPage - 1}`).prev Previous
+
+
+                div.pagination-links 
+                    if currentPage <= 2
+                        each i in Array.from({ length: 3 }, (_, index) => index + 1)
+                            if currentPage === i 
+                                a#active(href=`/catalog/items/?page=${i}`) #{i}
+                            else 
+                                a(href=`/catalog/items/?page=${i}`) #{i} 
+                        
+                        p ...
+                        a(href=`/catalog/items/?page=${totalPages}`) #{totalPages}
+
+                    else if currentPage >= 3 && currentPage < 5 
+                        each i in Array.from({ length: currentPage + 1 }, (_, index) => index + 1)
+                            p 
+                                if currentPage === i 
+                                    a#active(href=`/catalog/items/?page=${i}`) #{i}
+                                else 
+                                    a(href=`/catalog/items/?page=${i}`) #{i} 
+
+                        p ... 
+                        a(href=`/catalog/items/?page=${totalPages}`) #{totalPages}
+
+                    else if currentPage >= 5 && currentPage < totalPages 
+                        each i in [totalPages - currentPage, currentPage - 1, currentPage, currentPage + 1]
+                            if i === currentPage - 1
+                                p ... 
+
+                            if i <= totalPages
+                                if currentPage === i 
+                                    a#active(href=`/catalog/items/?page=${i}`) #{i}
+                                else 
+                                    a(href=`/catalog/items/?page=${i}`) #{i}
+
+                            if currentPage + 1 < totalPages 
+                                p ... 
+                                a(href=`/catalog/items/?page=${totalPages}`) #{totalPages}
+
+                    else 
+                        each i in [totalPages - currentPage + 1, totalPages - 2, totalPages - 1, currentPage]
+                            if i === totalPages - 2
+                                p ... 
+                            
+                            if currentPage === i 
+                                a#active(href=`/catalog/items/?page=${i}`) #{i} 
+                            else 
+                                a(href=`/catalog/items/?page=${i}`) #{i}
+
+                div.nxt-prv-container 
+                    if currentPage + 1 > totalPages 
+                        a(href="javascript:void(0)")#disabled Next
+                        i.bi.bi-chevron-right.pag#disabled
+                    else 
+                        a(href=`/catalog/items/?page=${currentPage + 1}`).next Next
+                        i.bi.bi-chevron-right.pag
+
+
+        else
+            div.error-message
+                p Something went wrong
+                a(href="/catalog/items") Refresh
