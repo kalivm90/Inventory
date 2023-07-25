@@ -18,7 +18,7 @@ block content
                         p.card-name 
                             a(href=cat.url) #{cat.name}
                         div.img-container  
-                            img.card-img(src=`/images/categories/${cat.name.toLowerCase().replace(' ', '_')}.jpg`)
+                            img.card-img(src=`/images/categories/${cat.name.toLowerCase().replace(' ', '_')}.jpg` onerror="noImg(this)")
 
                         p.card-desc #{cat.description}
 

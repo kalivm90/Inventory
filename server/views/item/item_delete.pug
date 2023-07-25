@@ -3,24 +3,24 @@ extends ../layout
 block content 
     main 
         header.flex-col.gap-sml 
-            h1= title 
-            p Details for #{item.name}
+            h1 #{title}: #{item.name}
+            p Remove a item completely! 
 
-        .main-container.flex-col.gap-lrg 
-
-            .flex-col.gap-sml
+        div.main-container.flex-col.gap-lrg 
+            div.flex-col.gap-sml
                 h1 #{item.name}
-                hr 
-
-            .detail-content.itemDetail.flex-row.jst-cntr.algn-cntr.gap-md 
-                .detail-img-container  
+                hr
+            
+            div.detail-content.flex-row.jst-cntr.algn-cntr.gap-md 
+                div.detail-img-container  
                     if item.name.split(" ").length > 1
                         img.img(alt="Item Image" src=`/images/items/${item.name.toLowerCase().replace(/ /g, '_')}_${item.parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg` onerror="noImg(this)") 
                     else 
                         img.img(alt="Item Image" src=`/images/items/${item.name.toLowerCase()}_${item.parent_subcategory.name.toLowerCase().replace(" ", "_")}.jpg` onerror="noImg(this)")
 
-                div.detail-info.itemDetail.flex-col.gap-lrg
-
+                div.detail-info.flex-col.gap-lrg
+                    
+                    
                     div.detail-categories.itemDetail 
                         h3 Parent Subcategory: 
                         a(href=item.parent_subcategory.url) #{item.parent_subcategory.name}
@@ -40,10 +40,14 @@ block content
                         else 
                             p.out-of-stock Out of stock
 
-                    div.detail-actions.itemDetail.flex-row.jst-cntr.align-cntr.txt-algn
-                        div 
-                            button 
-                                a(href=item.url + "/update") Update
-                        div 
-                            button
-                                a(href=item.url + "/delete") Delete
+                    div.detail-skew.flex-col.gap-sml 
+                        h3 Skew: 
+                        p #{item.skew}
+
+                    
+                    div.flex-col.gap-sml 
+                        h3 Are you sure you want to delete #{item.name}?
+                        hr
+                        form.delete(method="POST" action="")
+                            input(type="hidden" name="subcategoryid" required="true" value=item._id)
+                            button.btn-delete(type="submit") Delete

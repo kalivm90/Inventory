@@ -1,0 +1,42 @@
+extends ../layout 
+
+block content 
+    main 
+        header.flex-col.gap-sml 
+            h1= title 
+            p Add a new item! 
+
+
+        .main-container.forms  
+            form.flex-col.align-cntr(method="POST" action="" enctype="multipart/form-data")
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="name") Item Name:  
+                    input.form-control(type="text" name="name" placeholder="Category Name" required="true" value=(item === undefined ? "" : item.name))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="description") Description: 
+                    input.form-control(type="text" name="description" placeholder="Description" required="true" value=(item === undefined ? "" : item.description))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="parent_subcategory") Parent Subcategory: 
+                    select.form-control(name="parent_subcategory")
+                        each sub in subcategory 
+                            option(value=sub.id) #{sub.name}
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="price") Price: 
+                    input.form-control(type="text" name="price" placeholder="Price" required="true" value=(item === undefined ? "" : item.price))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="number_in_stock") Number In Stock:
+                    input.form-control(type="text" name="number_in_stock" placeholder="Number In Stock" required="true" value=(item === undefined ? "" : item.number_in_stock))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="skew") Skew: 
+                    input.form-control(type="text" name="skew" placeholder="Skew" required="true" value=(item === undefined ? "" : item.skew))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="image") Image: 
+                    input.form-control(type="file" name="image")
+
+                .action-container 
+                    button(type="submit") Submit
+
+            if errors 
+                ul 
+                    for error in errors 
+                        li!= error.msg

@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
     main 
-        header 
+        header.flex-col.gap-sml 
             h1= title 
             p Details for #{subcategory.name}
 
@@ -16,11 +16,11 @@ block content
             .detail-content.subDetail.flex-row.jst-cntr.algn-cntr.gap-md 
                 .detail-img-container  
                     if subcategory.name === "Other"
-                        img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}_${subcategory.parent_category.name.toLowerCase()}.jpg`)    
+                        img.img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}_${subcategory.parent_category.name.toLowerCase()}.jpg` onerror="noImg(this)")    
                     else if subcategory.name.split(" ").length > 1
-                        img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}.jpg`)
+                        img.img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}.jpg` onerror="noImg(this)")
                     else 
-                        img.card-img(src=`/images/subcategories/${subcategory.name.toLowerCase() + `_${subcategory.parent_category.name.toLowerCase()}`}.jpg`)
+                        img.img.card-img(src=`/images/subcategories/${subcategory.name.toLowerCase() + `_${subcategory.parent_category.name.toLowerCase()}`}.jpg` onerror="noImg(this)")
                     
 
 

@@ -1,0 +1,53 @@
+extends layout 
+
+block content 
+    main 
+        header.flex-col.gap-sml 
+            h1=title 
+            p About this project.
+
+        .main-container.about.flex-col.gap-md 
+            .about-title.flex-col.gap-sml 
+                h1 Inventory 
+                hr
+
+            .about-desc 
+                p This is a project from 
+                    a(href="https://www.theodinproject.com/lessons/nodejs-inventory-application") The Odin Project 
+                    | Its the first project using Express and the requirments are pretty simple.
+
+            .about-container.flex-col.gap-sml 
+                h3 Requirments:
+                p#quote "Your Inventory app should have categories and items, so when the user goes to the home-page they can choose a category to view, and then get a list of every item in that category. You should include all of the CRUD methods for both items and categories, so anybody that’s visiting the site can Create, Read, Update or Delete any Item or Category."
+                p I did a grocery store type website and most of the categories like "Meats, Drinks, Dairy" were too broad so I made subcategories for specifity. Now Drinks has "Soda", "Sports Drinks", "Energy Drinks", and "Other" which could be expanded as needed.  All CRUD operations are there and organized into neat routes. 
+
+            .about-container.flex-col.gap-sml 
+                h3 Extra Credit 
+                    ul 
+                        li#quote "For bonus points, try to figure out how to add and upload images for each item. Use Multer which was created by the Express team. The documentation in the README there should be enough to get you going"
+                        li#quote "We will learn about creating users with secure passwords in a later lesson, but for now we don’t want just anyone to be able to delete and edit items in our inventory! Figure out how to protect destructive actions (like deleting and updating) by making users enter a secret admin password to confirm the action."
+
+                p You are able to upload images if you choose, the second extra credit I could probably implemnent easily but for the sake of time I decided to leave this one out for now. 
+            .about-container.flex-col.gap-sml 
+                h3 Other Information 
+                p This project has a lot of images included. I started by using a Google Images API but the limit was hit incredibly quickly and ended up not being feasible. I wrote a script to query the database and download every image for the collections. If you are intrested in that it is in server/api/google_images.js. It was not perfect and I did end up having to go back and fix a few things manually but it did save me a ton of time. 
+
+            .about-container.flex-col.gap-sml 
+                h3 How to run locally 
+                p In inventory/server run: 
+                    .code-container 
+                        p#code $ npm install 
+
+                p To run: 
+                    .code-container 
+                        p#code $ npm run start
+
+                p To run in development: 
+                    .code-container 
+                        p#code $ npm run devstart 
+
+            
+            .about-container.flex-col.gap-sml 
+                h3 Github Repo: 
+                a(href="https://github.com/kalivm90/Inventory") Inventory
+            

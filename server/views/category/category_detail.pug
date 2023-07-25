@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
     main 
-        header 
+        header.flex-col.gap-sml 
             h1 #{title} 
             p Details for #{category.name} 
 
@@ -14,7 +14,7 @@ block content
 
             div.detail-content.flex-row.jst-cntr.algn-cntr.gap-md 
                 div.detail-img-container  
-                    img(src=`/images/categories/${category.name.toLowerCase().replace(' ', '_')}.jpg`)
+                    img.img(src=`/images/categories/${category.name.toLowerCase().replace(' ', '_')}.jpg`, onerror="noImg(this)")
 
                 div.detail-info.flex-col.gap-lrg
                     
@@ -48,3 +48,5 @@ block content
                         div 
                             button 
                                 a(href=category.url + "/delete") Delete
+
+    

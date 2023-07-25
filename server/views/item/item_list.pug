@@ -18,9 +18,9 @@ block content
 
                         div.img-container 
                             if item.name.split(" ").length > 1 
-                                img(alt="Item Image" src=`/images/items/${item.name.toLowerCase().replace(/ /g, '_')}_${item.parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg`).card-img
+                                img.img.card-img(alt="Item Image" src=`/images/items/${item.name.toLowerCase().replace(/ /g, '_')}_${item.parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg` onerror="noImg(this)")
                             else
-                                img(alt="Item Image" src=`/images/items/${item.name.toLowerCase() + `_${item.parent_subcategory.name.toLowerCase().replace(" ", "_")}`}.jpg`).card-img
+                                img.img.card-img(alt="Item Image" src=`/images/items/${item.name.toLowerCase() + `_${item.parent_subcategory.name.toLowerCase().replace(" ", "_")}`}.jpg` onerror="noImg(this)")
 
                         div.card-desc 
                             p #{item.description}

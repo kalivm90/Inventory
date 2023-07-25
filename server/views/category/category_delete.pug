@@ -1,0 +1,51 @@
+extends ../layout 
+
+block content 
+    main 
+        header 
+            h1 #{title}: #{category.name}
+            p Remove a category completely! 
+
+        div.main-container.flex-col.gap-lrg 
+            div.flex-col.gap-sml
+                h1 #{category.name}
+                hr
+
+            div.detail-content.flex-row.jst-cntr.algn-cntr.gap-md 
+                div.detail-img-container  
+                    img.img(src=`/images/categories/${category.name.toLowerCase().replace(' ', '_')}.jpg`, onerror="noImg(this)")
+
+                div.detail-info.flex-col.gap-lrg
+                    
+                    if subcategory.length > 0 
+                        div.detail-categories 
+                            p #[strong Delete the following subcategories before attempting to delete this category.]
+
+                            ul 
+                                each sub in subcategory 
+                                    li 
+                                        a(href=sub.url) #{sub.name}
+                    else 
+                        p.error No subcategories at this time
+
+                    div.detail-desc.flex-col.gap-sml
+                        h3 Description: 
+                        p #{category.description}
+
+                    if itemCount.length > 0
+                        p.itemCount.error #[strong All items must be deleted before category can be deleted]
+                        h3 Item count for #{category.name}: #{" "}
+                            if itemCount !== null || itemCount > 0 
+                                    span.itemCount #{itemCount.length}
+                            else 
+                                    span.itemCount.error No items 
+
+
+                    - if (subcategory.length === 0 && itemCount !== null) 
+                        div.flex-col.gap-sml 
+                            h3 Are you sure you want to delete #{category.name}?
+                            hr
+                            form.delete(method="POST" action="")
+                                input(type="hidden" name="categoryid" required="true" value=category._id)
+                                button.btn-delete(type="submit") Delete
+

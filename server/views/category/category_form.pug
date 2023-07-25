@@ -1,0 +1,29 @@
+extends ../layout 
+
+block content 
+    main 
+        header.flex-col.gap-sml 
+            h1= title 
+            p Add a new categroy! 
+
+
+        .main-container.forms  
+            form.flex-col.align-cntr(method="POST" action="" enctype="multipart/form-data")
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="name") Category Name:  
+                    input.form-control(type="text" name="name" placeholder="Category Name" required="true" value=(category === undefined ? "" : category.name))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="description") Description: 
+                    input.form-control(type="text" name="description" placeholder="Description" required="true" value=(category === undefined ? "" : category.description))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="image") Image: 
+                    input.form-control(type="file" name="image")
+
+                .action-container 
+                    button(type="submit") Submit
+
+            if errors 
+                ul 
+                    for error in errors 
+                        li!= error.msg
+        

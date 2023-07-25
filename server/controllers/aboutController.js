@@ -1,5 +1,7 @@
-// const asyncHandler = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 
-exports.index = (req, res, next) => {
-    res.send("TODO about page")
-}
+exports.index = asyncHandler(async (req, res, next) => {
+    res.render("about", {
+        title: "About",
+    })
+})

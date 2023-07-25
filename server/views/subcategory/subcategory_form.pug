@@ -1,0 +1,38 @@
+extends ../layout 
+
+block content 
+
+    main 
+        header.flex-col.gap-sml
+            h1= title 
+            p Add a new subcategory!
+
+    .main-container.forms
+        if category.length > 0 
+            form.flex-col.align-cntr(method="POST" action="/catalog/subcategory/create" enctype="multipart/form-data")
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="name") Subcategory Name:  
+                    input.form-control(type="text" name="name" placeholder="Subategory Name" required="true" value=(subcategory === undefined ? "" : subcategory.name))
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="description") Description: 
+                    input.form-control(type="text" name="description" placeholder="Description" required="true" value=(subcategory === undefined ? "" : subcategory.description))
+
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="parentCategory") Parent Category: 
+                    select.form-control(name="parentCategory")
+                        each cat in category 
+                            option(value=cat.id) #{cat.name}
+
+                .form-group.flex-col.justify-cntr.gap-xsml 
+                    label(for="image") Image: 
+                    input.form-control(type="file" name="image")
+
+                .action-container 
+                    button(type="submit") Submit
+        else 
+            p.out-of-stock You cannot create a new subcategory if there are no parent categories to link to. Please create a category to link to.
+
+        if errors 
+            ul 
+                for error in errors 
+                    li.out-of-stock!= error.msg

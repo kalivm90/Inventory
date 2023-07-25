@@ -1,0 +1,44 @@
+extends ../layout 
+
+block content 
+    main 
+        header.flex-col.gap-sml 
+            h1 #{title}: #{subcategory.name}
+            p Remove a subcategory completely! 
+
+        div.main-container.flex-col.gap-lrg 
+            div.flex-col.gap-sml
+                h1 #{subcategory.name}
+                hr
+            
+            div.detail-content.flex-row.jst-cntr.algn-cntr.gap-md 
+                div.detail-img-container  
+                    if subcategory.name === "Other"
+                        img.img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}_${subcategory.parent_category.name.toLowerCase()}.jpg` onerror="noImg(this)")    
+                    else if subcategory.name.split(" ").length > 1
+                        img.img(alt="Subcategory Image" src=`/images/subcategories/${subcategory.name.toLowerCase().replace(' ', '_')}.jpg` onerror="noImg(this)")
+                    else 
+                        img.img.card-img(src=`/images/subcategories/${subcategory.name.toLowerCase() + `_${subcategory.parent_category.name.toLowerCase()}`}.jpg` onerror="noImg(this)")
+
+                div.detail-info.flex-col.gap-lrg
+                    
+                    div.detail-desc.flex-col.gap-sml
+                        h3 Description: 
+                        p #{subcategory.description}
+
+                    if items.length > 0
+                        p.itemCount.error #[strong All items must be deleted before category can be deleted]
+                        h3 Item count for #{subcategory.name}: #{" "}
+                            if items !== null || items > 0 
+                                    span.itemCount #{items.length}
+                            else 
+                                    span.itemCount.error No items 
+
+
+                    - if (items.length <= 0) 
+                        div.flex-col.gap-sml 
+                            h3 Are you sure you want to delete #{subcategory.name}?
+                            hr
+                            form.delete(method="POST" action="")
+                                input(type="hidden" name="subcategoryid" required="true" value=subcategory._id)
+                                button.btn-delete(type="submit") Delete

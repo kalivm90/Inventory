@@ -63,6 +63,24 @@ html
       }
     }
 
+    noImg = (imgElement) => {
+      const imgContainer = imgElement.parentNode;
+
+      console.log("noImg() CALLED");
+
+      const p = document.createElement("p");
+      p.innerHTML = "No image found";
+      imgContainer.insertBefore(p, imgElement);
+      imgContainer.classList.add("noImg");
+      p.classList.add("noImg");
+      imgElement.remove();
+
+      // Image not found, do something here (e.g., display a default image)
+      console.log('Image not found.');
+    }
+
+
+
 
 
 
