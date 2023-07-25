@@ -88,8 +88,6 @@ exports.item_create_post = [
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
 
-        console.log(req.body);
-
         if (!errors.isEmpty()) {
             const subcatagory = await Subcategory.find().exec();
 

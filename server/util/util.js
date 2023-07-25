@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const debug = require("debug")("app:util")
 
 const Subcategory = require("../models/subcategory");
 const Category = require("../models/category");
@@ -26,12 +27,10 @@ exports.setPath = async (destination, req) => {
                 // if 1 word tag the parent category at the end with _ seperator
                 filename = `${req.body.name.toLowerCase() + `_${category.name.toLowerCase()}`}.jpg`
             };    
-            console.log(filename);
             break;
         case "items": 
           // req.body.parent_subcategory comes back as an id so I have to query the db
           const parent_subcategory = await Subcategory.findById(req.body.parent_subcategory).exec()
-          console.log(parent_subcategory);
 
           if (req.body.name.split(" ").length > 1) {
             filename = `${req.body.name.toLowerCase().replace(/ /g, '_')}_${parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg`
@@ -40,9 +39,9 @@ exports.setPath = async (destination, req) => {
           }
           break;
         default: 
-          console.log("Something went wrong, check path. This error came from util/setFilePath.js")
+          debug("Something went wrong, check path. This error came from util/setFilePath.js")
       }
-
+      debug("Setting path for uploaded image:", filename)
       return filename 
 }
 
@@ -73,22 +72,21 @@ exports.removeFilePathOnUpdateDelete = (name, document) => {
       }
       break;
     case "item":
-      console.log("ITEM CALLED RFPOUPD")
-
       if (document.name.split(" ").length > 1) {
         oldImagePath = path.join(__dirname, `../../public/images/items/${document.name.toLowerCase().replace(/ /g, '_')}_${document.parent_subcategory.name.toLowerCase().replace(/ /g, '_')}.jpg`)
       } else {
         oldImagePath = path.join(__dirname, `../../public/images/items/${document.name.toLowerCase()}_${document.parent_subcategory.name.toLowerCase().replace(" ", "_")}.jpg`)
       }
-      console.log(oldImagePath);
       break;
     default: 
-      console.log("something went wrong in util/removeFilePathOnUpdateDelete")
+      debug("something went wrong in util/removeFilePathOnUpdateDelete")
       break;
   } 
 
+  debug("Trying to remove image", oldImagePath)
+
   fs.unlink(oldImagePath, (err) => {
-      if (err) console.error("File not removed or not found", err)
-      else console.log("Success")
+      if (err) debug("File not removed or not found", err)
+      else debug("Success")
   })
 }
